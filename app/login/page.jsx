@@ -4,16 +4,12 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
-  const signIn = async (formData: FormData) => {
+export default function Login({ searchParams }) {
+  const signIn = async (formData) => {
     "use server";
 
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const email = formData.get("email");
+    const password = formData.get("password");
     const supabase = createClient();
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -28,12 +24,12 @@ export default function Login({
     return redirect("/protected");
   };
 
-  const signUp = async (formData: FormData) => {
+  const signUp = async (formData) => {
     "use server";
 
     const origin = headers().get("origin");
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const email = formData.get("email");
+    const password = formData.get("password");
     const supabase = createClient();
 
     const { error } = await supabase.auth.signUp({
